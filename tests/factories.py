@@ -27,8 +27,11 @@ class ProductFactory(factory.Factory):
 
     class Meta:
         """Maps factory to data model"""
-
         model = Product
 
-    id = factory.Sequence(lambda n: n)
-   ## Add code to create Fake Products 
+    id = factory.Sequence(lambda n: n + 1)  # Unique sequential ID starting from 1
+    name = factory.Faker("word")  # Random product name
+    description = factory.Faker("sentence", nb_words=6)  # Random short description
+    price = FuzzyDecimal(10.0, 1000.0, precision=2)  # Random price between $10 and $1000
+    available = FuzzyChoice([True, False])  # Random availability status
+    category = FuzzyChoice(list(Category))  # Random product category from Enum
